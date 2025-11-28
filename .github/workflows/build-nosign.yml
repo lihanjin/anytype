@@ -88,7 +88,7 @@ jobs:
           node-version: 25.2.1
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm install --legacy-peer-deps
 
       - name: Install Webpack
         run: npm install --save-dev webpack-cli --legacy-peer-deps
