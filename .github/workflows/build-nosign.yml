@@ -213,8 +213,16 @@ jobs:
           path: artifacts/
           retention-days: 7
 
-      - name: List artifacts
+      - name: List artifacts (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          Write-Host "=== Artifacts in artifacts/ ==="
+          Get-ChildItem artifacts/
+
+      - name: List artifacts (Mac/Linux)
+        if: matrix.os != 'windows-latest'
         run: |
           echo "=== Artifacts in artifacts/ ==="
-          ls -lah artifacts/ || dir artifacts/
+          ls -lah artifacts/
 
