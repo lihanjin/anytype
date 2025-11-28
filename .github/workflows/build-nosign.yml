@@ -108,7 +108,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.check_platform.outputs.should_build == 'true'
-        run: npm ci --legacy-peer-deps
+        run: npm install --legacy-peer-deps
 
       - name: Install Webpack
         if: steps.check_platform.outputs.should_build == 'true'
