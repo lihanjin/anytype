@@ -164,6 +164,7 @@ jobs:
         with:
           github_token: ${{secrets.TOKEN}}
           release: false
+          args: -c.win.sign=null
         env:
           DEBUG: electron-builder
           USE_HARD_LINKS: false
