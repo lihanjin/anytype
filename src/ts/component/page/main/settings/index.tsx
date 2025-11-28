@@ -7,9 +7,9 @@ import { I, S, U, analytics, Action, translate, Preview, sidebar, Storage, keybo
 import PageAccount from './account';
 import PageDelete from './delete';
 import PagePersonal from './personal';
-import PagePhrase from './phrase';
+// import PagePhrase from './phrase';
 import PageLanguage from './language';
-import PageApi from './api';
+// import PageApi from './api';
 
 import PageDataIndex from './data/index';
 import PageDataPublish from './data/publish';
@@ -46,10 +46,10 @@ const Components: any = {
 	account:			 PageAccount,
 	delete:				 PageDelete,
 	personal:			 PagePersonal,
-	phrase:				 PagePhrase,
+	// phrase:				 PagePhrase,
 	membership:			 PageMembership,
 	language:			 PageLanguage,
-	api:				 PageApi,
+	// api:				 PageApi,
 
 	pinIndex:			 PagePinIndex,
 	pinSelect:			 PagePinSelect,

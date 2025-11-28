@@ -4,7 +4,10 @@ import { Title, Label, Phrase, QR, Button } from 'Component';
 import { I, C, S, U, translate, analytics, Renderer } from 'Lib';
 
 const PageMainSettingsPhrase = observer(forwardRef<I.PageRef, I.PageSettingsComponent>((props, ref) => {
+	// 功能已禁用
+	return null;
 
+	/* 以下代码已注释，防止意外进入
 	const { onPage } = props;
 	const [ entropy, setEntropy ] = useState('');
 	const [ showCode, setShowCode ] = useState(false);
@@ -82,6 +85,7 @@ const PageMainSettingsPhrase = observer(forwardRef<I.PageRef, I.PageSettingsComp
 			) : ''}
 		</>
 	);
+	*/
 
 }));
 

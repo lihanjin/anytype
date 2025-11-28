@@ -16,7 +16,7 @@ import PopupPage from './page';
 import PopupExport from './export';
 import PopupMigration from './migration';
 import PopupPin from './pin';
-import PopupPhrase from './phrase';
+// import PopupPhrase from './phrase';
 import PopupObjectManager from './objectManager';
 import PopupUsecase from './usecase';
 import PopupAbout from './about';
@@ -32,7 +32,7 @@ import PopupSpaceCreate from './space/create';
 import PopupSpaceJoinByLink from './space/joinByLink';
 import PopupLogout from './logout';
 import PopupOnboarding from './onboarding';
-import PopupApiCreate from './api/create';
+// import PopupApiCreate from './api/create';
 import PopupAIOnboarding from './aiOnboarding';
 import PopupIntroduceChats from './introduceChats';
 
@@ -155,7 +155,7 @@ const Popup = observer(forwardRef<{}, I.Popup>((props, ref) => {
 		export:					 PopupExport,
 		migration:				 PopupMigration,
 		pin:					 PopupPin,
-		phrase:					 PopupPhrase,
+		// phrase:					 PopupPhrase,
 		objectManager:			 PopupObjectManager,
 		usecase:				 PopupUsecase,
 		about:					 PopupAbout,
@@ -171,7 +171,7 @@ const Popup = observer(forwardRef<{}, I.Popup>((props, ref) => {
 		spaceJoinByLink:		 PopupSpaceJoinByLink,
 		logout: 				 PopupLogout,
 		onboarding:				 PopupOnboarding,
-		apiCreate:				 PopupApiCreate,
+		// apiCreate:				 PopupApiCreate,
 		aiOnboarding:			 PopupAIOnboarding,
 		introduceChats:			 PopupIntroduceChats,
 	};

@@ -4,7 +4,10 @@ import { Title, Icon, Button, EmptyState } from 'Component';
 import { I, S, U, C, J, translate, Preview } from 'Lib';
 
 const PageMainSettingsApi = observer(forwardRef<I.PageRef, I.PageSettingsComponent>((props, ref) => {
+	// 功能已禁用
+	return null;
 
+	/* 以下代码已注释，防止意外进入
 	const { getId } = props;
 	const { dateFormat } = S.Common;
 	const [ list, setList ] = useState([]);
@@ -125,6 +128,7 @@ const PageMainSettingsApi = observer(forwardRef<I.PageRef, I.PageSettingsCompone
 			)}
 		</>
 	);
+	*/
 
 }));
 

@@ -1,12 +1,14 @@
 import React, { forwardRef, useState, useRef, useEffect } from 'react';
-import { Title, Icon, Label, Button, Phrase } from 'Component';
-import { I, keyboard, translate, Storage, S, Renderer, C, analytics, U } from 'Lib';
+import { Title, Label, Button } from 'Component';
+// import { Title, Icon, Label, Button, Phrase } from 'Component';
+import { I, keyboard, translate, S, analytics, U } from 'Lib';
+// import { I, keyboard, translate, Storage, S, Renderer, C, analytics, U } from 'Lib';
 
 const PopupLogout = forwardRef<{}, I.Popup>(({ param, close }, ref) => {
 
 	const { account } = S.Auth;
 	const buttonsRef = useRef(null);
-	const phraseRef = useRef(null);
+	// const phraseRef = useRef(null);
 	const [ n, setN ] = useState(0);
 
 	const setHighlight = () => {
@@ -61,16 +63,16 @@ const PopupLogout = forwardRef<{}, I.Popup>(({ param, close }, ref) => {
 		});
 	};
 
-	const onToggle = (isHidden: boolean) => {
-		if (!isHidden) {
-			U.Common.copyToast(translate('commonPhrase'), phraseRef.current.getValue());
-			analytics.event('KeychainCopy', { type: 'BeforeLogout' });
-		};
-	};
+	// const onToggle = (isHidden: boolean) => {
+	// 	if (!isHidden) {
+	// 		U.Common.copyToast(translate('commonPhrase'), phraseRef.current.getValue());
+	// 		analytics.event('KeychainCopy', { type: 'BeforeLogout' });
+	// 	};
+	// };
 
-	const onCopy = () => {
-		phraseRef.current.onToggle();
-	};
+	// const onCopy = () => {
+	// 	phraseRef.current.onToggle();
+	// };
 
 	const onMouseEnter = (e: any) => {
 		const buttons = $(buttonsRef).find('.button');
@@ -86,16 +88,15 @@ const PopupLogout = forwardRef<{}, I.Popup>(({ param, close }, ref) => {
 
 		setHighlight();
 
-		Renderer.send('keytarGet', account.id).then((value: string) => {
-			C.WalletConvert(value, '', (message: any) => {
-				if (!message.error.code) {
-					phraseRef.current.setValue(value);
-				};
-			});
-		});
+		// Renderer.send('keytarGet', account.id).then((value: string) => {
+		// 	C.WalletConvert(value, '', (message: any) => {
+		// 		if (!message.error.code) {
+		// 			phraseRef.current.setValue(value);
+		// 		};
+		// 	});
+		// });
 
-
-		analytics.event('ScreenKeychain', { type: 'BeforeLogout' });
+		// analytics.event('ScreenKeychain', { type: 'BeforeLogout' });
 	};
 
 	useEffect(() => {
@@ -109,10 +110,10 @@ const PopupLogout = forwardRef<{}, I.Popup>(({ param, close }, ref) => {
 
 	return (
 		<div className="wrap">
-			<Title text={translate('popupLogoutTitle')} />
-			<Label text={translate('popupLogoutText')} />
+			<Title text={translate('commonLogout')} />
+			<Label text={translate('popupLogoutConfirmText')} />
 
-			<div className="inputs" onClick={onCopy}>
+			{/* <div className="inputs" onClick={onCopy}>
 				<Phrase
 					ref={phraseRef}
 					readonly={true}
@@ -120,10 +121,10 @@ const PopupLogout = forwardRef<{}, I.Popup>(({ param, close }, ref) => {
 					checkPin={true}
 					onToggle={onToggle}
 				/>
-			</div>
+			</div> */}
 
 			<div ref={buttonsRef} className="buttons">
-				<Button text={translate('commonShowKey')} color="black" className="c36" onClick={onCopy} onMouseEnter={onMouseEnter} />
+				{/* <Button text={translate('commonShowKey')} color="black" className="c36" onClick={onCopy} onMouseEnter={onMouseEnter} /> */}
 				<Button text={translate('popupLogoutLogoutButton')} color="red" className="c36" onClick={onLogout} onMouseEnter={onMouseEnter} />
 			</div>
 		</div>
