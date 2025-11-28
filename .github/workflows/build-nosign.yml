@@ -83,6 +83,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1  # 只获取最新 commit，加快 checkout 速度
+          lfs: false  # 禁用 Git LFS，加快 checkout
+          submodules: false  # 禁用子模块
+        timeout-minutes: 15  # 设置超时时间（15分钟）
 
       - name: Install Node.js
         uses: actions/setup-node@v4
