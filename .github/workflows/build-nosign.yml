@@ -1,0 +1,206 @@
+name: Build (No Sign)
+
+on:
+  workflow_dispatch:
+    inputs:
+      platforms:
+        description: 'Platforms to build (comma-separated: mac,win,linux or all)'
+        required: true
+        default: 'mac,win'
+        type: choice
+        options:
+          - mac,win
+          - mac
+          - win
+          - linux
+          - all
+  push:
+    tags:
+      - 'build-nosign-*'
+
+permissions:
+  contents: 'read'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-15
+            platform: mac
+          - os: windows-latest
+            platform: win
+          - os: ubuntu-22.04
+            platform: linux
+
+    # 根据输入决定是否运行此 job
+    if: |
+      github.event_name == 'workflow_dispatch' && (
+        github.event.inputs.platforms == 'all' ||
+        contains(github.event.inputs.platforms, matrix.platform)
+      ) || 
+      github.event_name == 'push' && startsWith(github.ref, 'refs/tags/build-nosign-')
+
+    steps:
+      - name: Setup
+        run: |
+          git config --global url."https://${{secrets.USER}}:${{secrets.TOKEN}}@github.com/".insteadOf "https://github.com/" || true
+          git config --global url."https://${{secrets.USER}}:${{secrets.TOKEN}}@api.github.com/".insteadOf "https://api.github.com/" || true
+
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.22'
+          check-latest: true
+
+      - name: Setup GO
+        run: |
+          go version
+          echo GOPATH=$(go env GOPATH) >> $GITHUB_ENV
+          echo GOBIN=$(go env GOPATH)/bin >> $GITHUB_ENV
+          echo $(go env GOPATH)/bin >> $GITHUB_PATH
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Install LibSecret
+        if: matrix.os == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsecret-1-dev jq
+
+      - name: Setup .NET 9
+        if: matrix.os == 'windows-latest'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 25.2.1
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Install Webpack
+        run: npm install --save-dev webpack-cli --legacy-peer-deps
+
+      - name: Update locale
+        run: npm run update:locale
+        env:
+          GITHUB_TOKEN: ${{secrets.TOKEN}}
+
+      - name: Update Addon only AMD (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: |
+          ./update-ci.sh --user="${{secrets.USER}}" --token="${{secrets.TOKEN}}" --os="${{matrix.os}}" --middleware-version="$( cat middleware.version )" || echo "Middleware update skipped"
+
+      - name: Update Addon AMD and ARM (Mac/Linux)
+        if: matrix.os != 'windows-latest'
+        shell: bash
+        run: |
+          ./update-ci.sh --user="${{secrets.USER}}" --token="${{secrets.TOKEN}}" --os="${{matrix.os}}" --middleware-version="$( cat middleware.version )" --arch="arm" || echo "ARM middleware update skipped"
+          ./update-ci.sh --user="${{secrets.USER}}" --token="${{secrets.TOKEN}}" --os="${{matrix.os}}" --middleware-version="$( cat middleware.version )" --arch="amd" || echo "AMD middleware update skipped"
+
+      - name: Build Native Messaging Host Windows
+        if: matrix.os == 'windows-latest'
+        run: npm run build:nmh-win
+        env:
+          CGO_ENABLED: 0
+
+      - name: Build Native Messaging Host
+        if: matrix.os != 'windows-latest'
+        run: npm run build:nmh
+        env:
+          CGO_ENABLED: 0
+
+      - name: Build Frontend (Mac)
+        if: matrix.os == 'macos-15'
+        uses: samuelmeuli/action-electron-builder@v1
+        with:
+          github_token: ${{secrets.TOKEN}}
+          release: false
+          args: --arm64 --x64
+        env:
+          DEBUG: electron-builder
+          USE_HARD_LINKS: false
+          # 跳过签名和公证
+          ELECTRON_SKIP_NOTARIZE: 'true'
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+          # 跳过 Sentry
+          ELECTRON_SKIP_SENTRY: 'true'
+
+      - name: Build Frontend (Windows)
+        if: matrix.os == 'windows-latest'
+        uses: samuelmeuli/action-electron-builder@v1
+        with:
+          github_token: ${{secrets.TOKEN}}
+          release: false
+        env:
+          DEBUG: electron-builder
+          USE_HARD_LINKS: false
+          # 跳过签名
+          ELECTRON_SKIP_NOTARIZE: 'true'
+          # 跳过 Sentry
+          ELECTRON_SKIP_SENTRY: 'true'
+
+      - name: Build Frontend (Linux)
+        if: matrix.os == 'ubuntu-22.04'
+        uses: samuelmeuli/action-electron-builder@v1
+        with:
+          github_token: ${{secrets.TOKEN}}
+          release: false
+          args: --arm64 --x64
+        env:
+          DEBUG: electron-builder
+          USE_HARD_LINKS: false
+          # 跳过 Sentry
+          ELECTRON_SKIP_SENTRY: 'true'
+
+      - name: Make artifacts dir
+        run: |
+          mkdir -p artifacts
+
+      - name: Collect artifacts (Mac)
+        if: matrix.os == 'macos-15'
+        run: |
+          mv dist/*.{dmg,zip} artifacts/ 2>/dev/null || true
+          echo "Mac artifacts collected"
+
+      - name: Collect artifacts (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          Remove-Item dist/anytypeHelper.exe -ErrorAction SilentlyContinue
+          Remove-Item dist/nativeMessagingHost.exe -ErrorAction SilentlyContinue
+          Move-Item dist/*.exe artifacts/ -ErrorAction SilentlyContinue
+          Write-Host "Windows artifacts collected"
+
+      - name: Collect artifacts (Linux)
+        if: matrix.os == 'ubuntu-22.04'
+        run: |
+          mv dist/*.{AppImage,deb,rpm,tar.gz,zip} artifacts/ 2>/dev/null || true
+          echo "Linux artifacts collected"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.platform }}-artifacts
+          path: artifacts/
+          retention-days: 7
+
+      - name: List artifacts
+        run: |
+          echo "=== Artifacts in artifacts/ ==="
+          ls -lah artifacts/ || dir artifacts/
+
