@@ -96,20 +96,20 @@ jobs:
       - name: Update locale
         run: npm run update:locale
         env:
-          GITHUB_TOKEN: ${{secrets.TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update Addon only AMD (Windows)
         if: matrix.os == 'windows-latest'
         shell: bash
         run: |
-          ./update-ci.sh --user="${{secrets.USER}}" --token="${{secrets.TOKEN}}" --os="${{matrix.os}}" --middleware-version="$( cat middleware.version )" || echo "Middleware update skipped"
+          ./update-ci.sh --user="${{ github.repository_owner }}" --token="${{ secrets.GITHUB_TOKEN }}" --os="${{matrix.os}}" --middleware-version="$( cat middleware.version )"
 
       - name: Update Addon AMD and ARM (Mac/Linux)
         if: matrix.os != 'windows-latest'
         shell: bash
         run: |
-          ./update-ci.sh --user="${{secrets.USER}}" --token="${{secrets.TOKEN}}" --os="${{matrix.os}}" --middleware-version="$( cat middleware.version )" --arch="arm" || echo "ARM middleware update skipped"
-          ./update-ci.sh --user="${{secrets.USER}}" --token="${{secrets.TOKEN}}" --os="${{matrix.os}}" --middleware-version="$( cat middleware.version )" --arch="amd" || echo "AMD middleware update skipped"
+          ./update-ci.sh --user="${{ github.repository_owner }}" --token="${{ secrets.GITHUB_TOKEN }}" --os="${{matrix.os}}" --middleware-version="$( cat middleware.version )" --arch="arm"
+          ./update-ci.sh --user="${{ github.repository_owner }}" --token="${{ secrets.GITHUB_TOKEN }}" --os="${{matrix.os}}" --middleware-version="$( cat middleware.version )" --arch="amd"
 
       - name: Build Native Messaging Host Windows
         if: matrix.os == 'windows-latest'
