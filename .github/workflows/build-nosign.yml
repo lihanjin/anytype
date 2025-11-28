@@ -37,12 +37,11 @@ jobs:
             platform: linux
 
     # 根据输入决定是否运行此 job
+    # 注意：在 job 级别的 if 中，matrix 上下文可能无法直接访问
+    # 所以改为在 build step 中添加条件判断
     if: |
-      github.event_name == 'workflow_dispatch' && (
-        github.event.inputs.platforms == 'all' ||
-        contains(github.event.inputs.platforms, matrix.platform)
-      ) || 
-      github.event_name == 'push' && startsWith(github.ref, 'refs/tags/build-nosign-')
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/build-nosign-'))
 
     steps:
       - name: Setup
@@ -125,7 +124,12 @@ jobs:
           CGO_ENABLED: 0
 
       - name: Build Frontend (Mac)
-        if: matrix.os == 'macos-15'
+        if: |
+          matrix.os == 'macos-15' && (
+            github.event_name == 'push' ||
+            github.event.inputs.platforms == 'all' ||
+            contains(github.event.inputs.platforms, 'mac')
+          )
         uses: samuelmeuli/action-electron-builder@v1
         with:
           github_token: ${{secrets.TOKEN}}
@@ -141,7 +145,12 @@ jobs:
           ELECTRON_SKIP_SENTRY: 'true'
 
       - name: Build Frontend (Windows)
-        if: matrix.os == 'windows-latest'
+        if: |
+          matrix.os == 'windows-latest' && (
+            github.event_name == 'push' ||
+            github.event.inputs.platforms == 'all' ||
+            contains(github.event.inputs.platforms, 'win')
+          )
         uses: samuelmeuli/action-electron-builder@v1
         with:
           github_token: ${{secrets.TOKEN}}
@@ -155,7 +164,12 @@ jobs:
           ELECTRON_SKIP_SENTRY: 'true'
 
       - name: Build Frontend (Linux)
-        if: matrix.os == 'ubuntu-22.04'
+        if: |
+          matrix.os == 'ubuntu-22.04' && (
+            github.event_name == 'push' ||
+            github.event.inputs.platforms == 'all' ||
+            contains(github.event.inputs.platforms, 'linux')
+          )
         uses: samuelmeuli/action-electron-builder@v1
         with:
           github_token: ${{secrets.TOKEN}}
