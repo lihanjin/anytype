@@ -40,6 +40,7 @@ jobs:
       # 检查是否应该运行此平台的构建
       - name: Check if platform should be built
         id: check_platform
+        shell: bash
         run: |
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             PLATFORMS="${{ github.event.inputs.platforms }}"
@@ -56,6 +57,7 @@ jobs:
 
       - name: Setup
         if: steps.check_platform.outputs.should_build == 'true'
+        shell: bash
         run: |
           git config --global url."https://${{secrets.USER}}:${{secrets.TOKEN}}@github.com/".insteadOf "https://github.com/" || true
           git config --global url."https://${{secrets.USER}}:${{secrets.TOKEN}}@api.github.com/".insteadOf "https://api.github.com/" || true
@@ -69,6 +71,7 @@ jobs:
 
       - name: Setup GO
         if: steps.check_platform.outputs.should_build == 'true'
+        shell: bash
         run: |
           go version
           echo GOPATH=$(go env GOPATH) >> $GITHUB_ENV
@@ -188,6 +191,7 @@ jobs:
 
       - name: Make artifacts dir
         if: steps.check_platform.outputs.should_build == 'true'
+        shell: bash
         run: |
           mkdir -p artifacts
 
@@ -222,7 +226,8 @@ jobs:
 
       - name: List artifacts
         if: steps.check_platform.outputs.should_build == 'true'
+        shell: bash
         run: |
           echo "=== Artifacts in artifacts/ ==="
-          ls -lah artifacts/ || dir artifacts/
+          ls -lah artifacts/ 2>/dev/null || dir artifacts/ || echo "No artifacts found"
 
