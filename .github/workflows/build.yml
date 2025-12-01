@@ -82,6 +82,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag != '' && format('refs/tags/{0}', github.event.inputs.tag) || github.ref }}
+          fetch-depth: 1
+          lfs: false
+          submodules: false
 
       - name: Install Node.js, NPM and Yarn
         uses: actions/setup-node@v4
