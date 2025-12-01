@@ -79,32 +79,13 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
-      - name: Check out Git repository (sparse)
+      - name: Check out Git repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1  # 只获取最新 commit，加快 checkout 速度
-          lfs: false  # 禁用 Git LFS，加快 checkout
-          submodules: false  # 禁用子模块
-          sparse-checkout: |
-            /*
-            !dist/
-            !node_modules/
-            !build/
-            !darwin-*/
-            !linux-*/
-            !windows/
-          sparse-checkout-cone-mode: true
-        timeout-minutes: 20  # 设置超时时间（20分钟）
-
-      - name: Diagnose repository size
-        if: matrix.os == 'macos-15'
-        run: |
-          echo "=== Repository size diagnosis ==="
-          du -sh . 2>/dev/null || echo "Cannot check size"
-          echo "=== Checking for large directories ==="
-          find . -maxdepth 2 -type d -exec du -sh {} \; 2>/dev/null | sort -hr | head -10 || echo "Cannot check directories"
-          echo "=== Git repository info ==="
-          git count-objects -vH 2>/dev/null || echo "Cannot check git objects"
+          fetch-depth: 1
+          lfs: false
+          submodules: false
+        timeout-minutes: 30
 
       - name: Install Node.js
         uses: actions/setup-node@v4
