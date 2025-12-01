@@ -22,8 +22,8 @@ jobs:
     steps:
       - name: Setup
         run: |
-          git config --global url."https://${{secrets.USER}}:${{secrets.TOKEN}}@github.com/".insteadOf "https://github.com/"
-          git config --global url."https://${{secrets.USER}}:${{secrets.TOKEN}}@api.github.com/".insteadOf "https://api.github.com/"
+          git config --global url."https://${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/" || true
+          git config --global url."https://${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }}@api.github.com/".insteadOf "https://api.github.com/" || true
 
       - name: Install Go
         uses: actions/setup-go@v4
@@ -72,7 +72,7 @@ jobs:
       - name: Update locale
         run: npm run update:locale
         env:
-          GITHUB_TOKEN: ${{secrets.TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       #- name: Update Deps
       #  run: npm run build:deps
@@ -81,14 +81,14 @@ jobs:
         if: ${{ startsWith(matrix.os, 'windows-') }}
         shell: bash
         run: |
-          ./update-ci.sh --user="${{secrets.USER}}" --token="${{secrets.TOKEN}}" --os="${{matrix.os}}" --middleware-version="$( cat middleware.version )"
+          ./update-ci.sh --user="${{ github.repository_owner }}" --token="${{ secrets.GITHUB_TOKEN }}" --os="${{matrix.os}}" --middleware-version="$( cat middleware.version )"
 
       - name: Update Addon AMD and ARM
         if: ${{ !startsWith(matrix.os, 'windows-') }}
         shell: bash
         run: |
-          ./update-ci.sh --user="${{secrets.USER}}" --token="${{secrets.TOKEN}}" --os="${{matrix.os}}" --middleware-version="$( cat middleware.version )" --arch="arm"
-          ./update-ci.sh --user="${{secrets.USER}}" --token="${{secrets.TOKEN}}" --os="${{matrix.os}}" --middleware-version="$( cat middleware.version )" --arch="amd"
+          ./update-ci.sh --user="${{ github.repository_owner }}" --token="${{ secrets.GITHUB_TOKEN }}" --os="${{matrix.os}}" --middleware-version="$( cat middleware.version )" --arch="arm"
+          ./update-ci.sh --user="${{ github.repository_owner }}" --token="${{ secrets.GITHUB_TOKEN }}" --os="${{matrix.os}}" --middleware-version="$( cat middleware.version )" --arch="amd"
 
       - name: Build Native Messaging Host Windows
         if: ${{ startsWith(matrix.os, 'windows-') }}
@@ -106,7 +106,7 @@ jobs:
         if: ${{ startsWith(matrix.os, 'macos-') }}
         uses: samuelmeuli/action-electron-builder@v1
         with:
-          github_token: ${{secrets.TOKEN}}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           mac_certs: ${{ secrets.MAC_CERT_TEXT }}
           mac_certs_password: ${{ secrets.MAC_CERT_PASS }}
           release: ${{ startsWith(github.ref, 'refs/tags/v') }}
@@ -124,7 +124,7 @@ jobs:
         if: ${{ !startsWith(matrix.os, 'macos-') }}
         uses: samuelmeuli/action-electron-builder@v1
         with:
-          github_token: ${{secrets.TOKEN}}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           release: ${{ startsWith(github.ref, 'refs/tags/v') }}
         env:
           DEBUG: electron-builder
@@ -159,7 +159,7 @@ jobs:
         with:
           files: "artifacts/**"
         env:
-          GITHUB_TOKEN: ${{secrets.TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: debug
         if: ${{ !startsWith(matrix.os, 'windows-') }}
@@ -225,4 +225,4 @@ jobs:
           keep_latest: 3
           delete_tag_pattern: alpha
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
