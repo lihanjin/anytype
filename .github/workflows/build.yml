@@ -1,6 +1,23 @@
 name: Release
 
 on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to build (e.g., v1.0.0)'
+        required: false
+        type: string
+      platforms:
+        description: 'Platforms to build (comma-separated: mac,win,linux or all)'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - mac
+          - win
+          - linux
+          - mac,win
   push:
     tags:
       - v*
@@ -14,10 +31,13 @@ jobs:
 
     strategy:
       matrix:
-        os:
-          - macos-15
-          - ubuntu-22.04
-          - windows-latest
+        include:
+          - os: macos-15
+            platform: mac
+          - os: ubuntu-22.04
+            platform: linux
+          - os: windows-latest
+            platform: win
 
     steps:
       - name: Setup
@@ -59,7 +79,9 @@ jobs:
         run: dotnet tool install --global AzureSignTool --version 6.0.1
 
       - name: Check out Git repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag != '' && format('refs/tags/{0}', github.event.inputs.tag) || github.ref }}
 
       - name: Install Node.js, NPM and Yarn
         uses: actions/setup-node@v4
@@ -103,13 +125,18 @@ jobs:
           CGO_ENABLED: 0
 
       - name: Build Front Mac OS
-        if: ${{ startsWith(matrix.os, 'macos-') }}
+        if: |
+          startsWith(matrix.os, 'macos-') && (
+            github.event_name == 'push' ||
+            github.event.inputs.platforms == 'all' ||
+            contains(github.event.inputs.platforms, 'mac')
+          )
         uses: samuelmeuli/action-electron-builder@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           mac_certs: ${{ secrets.MAC_CERT_TEXT }}
           mac_certs_password: ${{ secrets.MAC_CERT_PASS }}
-          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+          release: ${{ startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && startsWith(github.event.inputs.tag, 'v')) }}
           args: --arm64 --x64
         env:
           DEBUG: electron-builder
@@ -121,11 +148,17 @@ jobs:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
 
       - name: Build Front Other
-        if: ${{ !startsWith(matrix.os, 'macos-') }}
+        if: |
+          !startsWith(matrix.os, 'macos-') && (
+            github.event_name == 'push' ||
+            github.event.inputs.platforms == 'all' ||
+            (startsWith(matrix.os, 'windows-') && contains(github.event.inputs.platforms, 'win')) ||
+            (startsWith(matrix.os, 'ubuntu-') && contains(github.event.inputs.platforms, 'linux'))
+          )
         uses: samuelmeuli/action-electron-builder@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+          release: ${{ startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && startsWith(github.event.inputs.tag, 'v')) }}
         env:
           DEBUG: electron-builder
           USE_HARD_LINKS: false
@@ -155,7 +188,7 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v0.1.14
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/') || (github.event_name == 'workflow_dispatch' && github.event.inputs.tag != '')
         with:
           files: "artifacts/**"
         env:
