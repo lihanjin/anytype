@@ -39,6 +39,16 @@ jobs:
           - os: windows-latest
             platform: win
 
+    # 根据选择的平台过滤 job（在 push 事件时运行所有平台，在手动触发时根据选择过滤）
+    if: |
+      github.event_name == 'push' ||
+      (github.event_name == 'workflow_dispatch' && (
+        github.event.inputs.platforms == 'all' ||
+        (matrix.platform == 'mac' && contains(github.event.inputs.platforms, 'mac')) ||
+        (matrix.platform == 'win' && contains(github.event.inputs.platforms, 'win')) ||
+        (matrix.platform == 'linux' && contains(github.event.inputs.platforms, 'linux'))
+      ))
+
     steps:
       - name: Setup
         run: |
@@ -78,13 +88,37 @@ jobs:
         if: ${{ startsWith(matrix.os, 'windows-') }}
         run: dotnet tool install --global AzureSignTool --version 6.0.1
 
-      - name: Check out Git repository
+      - name: Check out Git repository (fast method for macOS)
+        if: matrix.os == 'macos-15'
+        run: |
+          echo "Using Archive API for faster checkout on macOS..."
+          REF="${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag != '' && github.event.inputs.tag || github.ref_name }}"
+          curl -L -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/zipball/${REF}" \
+            -o repo.zip
+          unzip -q repo.zip
+          mv ${{ github.repository_owner }}-anytype-*/* .
+          mv ${{ github.repository_owner }}-anytype-*/.[!.]* . 2>/dev/null || true
+          rm -rf ${{ github.repository_owner }}-anytype-* repo.zip
+          # Initialize git for version info (needed for build scripts)
+          git init
+          git remote add origin https://github.com/${{ github.repository }}.git
+          # Fetch only the specific commit to get Git info
+          COMMIT_SHA="${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag != '' && github.sha || github.sha }}"
+          git fetch --depth=1 origin ${COMMIT_SHA} || git fetch --depth=1 origin ${REF} || true
+          git checkout -b temp ${COMMIT_SHA} 2>/dev/null || git checkout -b temp ${REF} 2>/dev/null || git checkout -b temp HEAD 2>/dev/null || true
+        timeout-minutes: 10
+
+      - name: Check out Git repository (standard method)
+        if: matrix.os != 'macos-15'
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag != '' && format('refs/tags/{0}', github.event.inputs.tag) || github.ref }}
           fetch-depth: 1
           lfs: false
           submodules: false
+        timeout-minutes: 30
 
       - name: Install Node.js, NPM and Yarn
         uses: actions/setup-node@v4
