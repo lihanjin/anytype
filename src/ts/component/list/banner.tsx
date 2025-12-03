@@ -4,10 +4,12 @@ import { observer } from 'mobx-react';
 import { Renderer, S, translate, U } from 'Lib';
 
 const ListBanner: FC = observer(() => {
-	const { updateVersion } = S.Common;
+	// 更新功能已禁用
+	// const { updateVersion } = S.Common;
 
 	return (
 		<>
+			{/* 更新提示已禁用
 			{updateVersion ? (
 				<Banner
 					id="sidebarUpdateBanner"
@@ -26,6 +28,7 @@ const ListBanner: FC = observer(() => {
 					}}
 				/>
 			) : ''}
+			*/}
 		</>
 	);
 });
