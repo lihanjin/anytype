@@ -122,7 +122,9 @@ class MenuObject extends React.Component<I.Menu> {
 		let pageLink = { id: 'pageLink', icon: 'linkTo', name: translate('commonCopyLink') };
 		let pageDeeplink = { id: 'pageDeeplink', icon: 'linkTo', name: translate('commonCopyDeeplink') };
 		let pageReload = { id: 'pageReload', icon: 'reload', name: translate('menuObjectReloadFromSource') };
-		let pageExport = { id: 'pageExport', icon: 'export', name: translate('menuObjectExport') };
+		// 导出功能已隐藏
+		// let pageExport = { id: 'pageExport', icon: 'export', name: translate('menuObjectExport') };
+		let pageExport = null;
 		let downloadFile = { id: 'downloadFile', icon: 'download', name: translate('commonDownload') };
 		let openFile = { id: 'openFile', icon: 'expand', name: translate('menuObjectDownloadOpen') };
 		let openObject = { id: 'openAsObject', icon: 'expand', name: translate('commonOpenObject') };

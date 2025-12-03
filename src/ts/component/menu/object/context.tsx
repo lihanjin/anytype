@@ -85,7 +85,9 @@ class MenuContext extends React.Component<I.Menu> {
 		let relation = { id: 'relation', icon: 'editRelation', name: translate('menuObjectContextEditRelations') };
 		let notification = { id: 'notification', icon: 'notification', name: translate('commonNotifications'), arrow: true };
 		let editChat = { id: 'editChat', name: translate('commonEditChat'), icon: 'editChat' };
-		let exportObject = { id: 'export', icon: 'export', name: translate('menuObjectExport') };
+		// 导出功能已隐藏
+		// let exportObject = { id: 'export', icon: 'export', name: translate('menuObjectExport') };
+		let exportObject = null;
 		let archive = null;
 		let archiveCnt = 0;
 		let pin = null;
