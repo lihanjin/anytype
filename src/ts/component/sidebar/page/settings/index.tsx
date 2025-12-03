@@ -41,19 +41,21 @@ const SidebarPageSettingsIndex = observer(forwardRef<{}, I.SidebarPageComponent>
 		const { error, notSyncedCounter } = S.Auth.getSyncStatus();
 		
 		const members = U.Space.getParticipantsList([ I.ParticipantStatus.Joining, I.ParticipantStatus.Active ]);
-		const importExport = [{
-			id: 'exportIndex', icon: 'export', name: translate('commonExport'),
-			subPages: [ 'exportProtobuf', 'exportMarkdown' ]
-		}];
+		const importExport = [];
+		// 导出功能已隐藏
+		// const importExport = [{
+		// 	id: 'exportIndex', icon: 'export', name: translate('commonExport'),
+		// 	subPages: [ 'exportProtobuf', 'exportMarkdown' ]
+		// }];
 
 		if (canWrite) {
-			importExport.unshift({
+			importExport.push({
 				id: 'importIndex', icon: 'import', name: translate('commonImport'),
 				subPages: [ 'importNotion', 'importNotionHelp', 'importNotionWarning', 'importCsv' ]
 			});
 		};
 
-		return [
+		const sections = [
 			{
 				id: 'common', name: translate('commonPreferences'),
 				children: [
@@ -69,8 +71,14 @@ const SidebarPageSettingsIndex = observer(forwardRef<{}, I.SidebarPageComponent>
 					{ id: 'relations', icon: 'relation', name: U.Common.plural(10, translate('pluralProperty')) },
 				],
 			},
-			{ id: 'integrations', name: translate('pageSettingsSpaceIntegrations'), children: importExport },
 		];
+
+		// 只有当 importExport 有内容时才显示 integrations 部分
+		if (importExport.length > 0) {
+			sections.push({ id: 'integrations', name: translate('pageSettingsSpaceIntegrations'), children: importExport });
+		}
+
+		return sections;
 	};
 
 	const getAppSettings = () => {

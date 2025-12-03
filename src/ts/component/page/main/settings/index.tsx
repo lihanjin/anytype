@@ -25,9 +25,10 @@ import PageImportNotionWarning from './import/notion/warning';
 import PageImportCsv from './import/csv';
 import PageImportObsidian from './import/obsidian';
 
-import PageExportIndex from './export/index';
-import PageExportProtobuf from './export/protobuf';
-import PageExportMarkdown from './export/markdown';
+// 导出功能已隐藏
+// import PageExportIndex from './export/index';
+// import PageExportProtobuf from './export/protobuf';
+// import PageExportMarkdown from './export/markdown';
 
 import PageSpaceIndex from './space/index';
 import PageSpaceStorage from './space/storage';
@@ -65,9 +66,10 @@ const Components: any = {
 	importCsv:			 PageImportCsv,
 	importObsidian:		 PageImportObsidian,
 
-	exportIndex:		 PageExportIndex,
-	exportProtobuf:		 PageExportProtobuf,
-	exportMarkdown:		 PageExportMarkdown,
+	// 导出功能已隐藏
+	// exportIndex:		 PageExportIndex,
+	// exportProtobuf:		 PageExportProtobuf,
+	// exportMarkdown:		 PageExportMarkdown,
 
 	spaceIndex:			 PageSpaceIndex,
 	spaceIndexEmpty:	 PageSpaceIndex,
@@ -84,7 +86,8 @@ const Components: any = {
 const SPACE_PAGES = [
 	'spaceIndex', 'spaceIndexEmpty', 'spaceStorage', 'spaceShare', 'spaceNotifications',
 	'importIndex', 'importNotion', 'importNotionHelp', 'importNotionWarning', 'importCsv', 'importObsidian',
-	'exportIndex', 'exportProtobuf', 'exportMarkdown',
+	// 导出功能已隐藏
+	// 'exportIndex', 'exportProtobuf', 'exportMarkdown',
 	'set', 'relation', 'archive',
 ];
 

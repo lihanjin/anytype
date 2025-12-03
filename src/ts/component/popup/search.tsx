@@ -365,9 +365,10 @@ const PopupSearch = observer(forwardRef<{}, I.Popup>((props, ref) => {
 			let settingsSpace: any[] = [
 				{ id: 'spaceIndex', name: translate('popupSettingsSpaceTitle') },
 
-				{ id: 'exportIndex', icon: 'settings-export', name: translate('popupSettingsExportTitle') },
-				{ id: 'exportProtobuf', icon: 'import-protobuf', name: translate('popupSettingsExportProtobufTitle') },
-				{ id: 'exportMarkdown', icon: 'import-markdown', name: translate('popupSettingsExportMarkdownTitle') },
+				// 导出功能已隐藏
+				// { id: 'exportIndex', icon: 'settings-export', name: translate('popupSettingsExportTitle') },
+				// { id: 'exportProtobuf', icon: 'import-protobuf', name: translate('popupSettingsExportProtobufTitle') },
+				// { id: 'exportMarkdown', icon: 'import-markdown', name: translate('popupSettingsExportMarkdownTitle') },
 			];
 
 			if (canWrite) {
