@@ -4,7 +4,12 @@ import { Title, Select, Button, Switch } from 'Component';
 import { I, S, Action, keyboard, analytics, translate } from 'Lib';
 
 const PopupExport = observer(forwardRef<{}, I.Popup>((props, ref) => {
+	// 导出功能已禁用
+	const { close } = props;
+	close();
+	return null;
 
+	/* 以下代码已注释，防止意外进入
 	const { param, close, storageGet, storageSet, position } = props;
 	const { data } = param;
 	const { allowHtml, objectIds, route } = data;
@@ -190,7 +195,7 @@ const PopupExport = observer(forwardRef<{}, I.Popup>((props, ref) => {
 			</div>
 		</>
 	);
-
+	*/
 }));
 
 export default PopupExport;

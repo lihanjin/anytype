@@ -91,8 +91,9 @@ class MenuManager {
 					{ role: 'hideothers', label: Util.translate('electronMenuHideOthers') },
 					{ role: 'unhide', label: Util.translate('electronMenuUnhide') },
 
-					{ type: 'separator', visible: isAllowedUpdate },
-					{ label: Util.translate('electronMenuCheckUpdates'), click: () => Api.updateCheck(this.win), visible: isAllowedUpdate },
+					// 检查更新功能已隐藏
+					// { type: 'separator', visible: isAllowedUpdate },
+					// { label: Util.translate('electronMenuCheckUpdates'), click: () => Api.updateCheck(this.win), visible: isAllowedUpdate },
 
 					Separator,
 
@@ -112,8 +113,9 @@ class MenuManager {
 					Separator,
 
 					{ label: Util.translate('electronMenuImport'), click: () => this.openSettings('importIndex') },
-					{ label: Util.translate('electronMenuExport'), click: () => this.openSettings('exportIndex') },
-					{ label: Util.translate('electronMenuSaveAs'), click: () => Util.send(this.win, 'commandGlobal', 'save') },
+					// 导出功能已隐藏
+					// { label: Util.translate('electronMenuExport'), click: () => this.openSettings('exportIndex') },
+					// { label: Util.translate('electronMenuSaveAs'), click: () => Util.send(this.win, 'commandGlobal', 'save') },
 
 					Separator,
 
@@ -434,7 +436,8 @@ class MenuManager {
 
 			Separator,
 
-			{ label: Util.translate('electronMenuCheckUpdates'), click: () => { this.winShow(); Api.updateCheck(this.win); }, visible: isAllowedUpdate },
+			// 检查更新功能已隐藏
+			// { label: Util.translate('electronMenuCheckUpdates'), click: () => { this.winShow(); Api.updateCheck(this.win); }, visible: isAllowedUpdate },
 			{ label: Util.translate('commonSettings'), submenu: this.menuSettings() },
 			
 			Separator,
@@ -500,12 +503,13 @@ class MenuManager {
 					this.openSettings('importIndex');
 				} 
 			},
-			{ 
-				label: Util.translate('electronMenuExport'), click: () => { 
-					this.winShow(); 
-					this.openSettings('exportIndex');
-				} 
-			},
+			// 导出功能已隐藏
+			// { 
+			// 	label: Util.translate('electronMenuExport'), click: () => { 
+			// 		this.winShow(); 
+			// 		this.openSettings('exportIndex');
+			// 	} 
+			// },
 
 			{ label: Util.translate('electronMenuLanguage'), submenu: langMenu },
 			

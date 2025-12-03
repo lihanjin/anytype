@@ -491,10 +491,11 @@ class MenuObject extends React.Component<I.Menu> {
 				break;
 			};
 
-			case 'pageExport': {
-				S.Popup.open('export', { data: { objectIds: [ rootId ], allowHtml: true, route } });
-				break;
-			};
+			// 导出功能已隐藏
+			// case 'pageExport': {
+			// 	S.Popup.open('export', { data: { objectIds: [ rootId ], allowHtml: true, route } });
+			// 	break;
+			// };
 
 			case 'pageArchive': {
 				Action.archive([ object.id ], route, () => {

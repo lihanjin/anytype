@@ -717,23 +717,24 @@ class Keyboard {
 				break;
 			};
 
-			case 'save': {
-				S.Popup.open('export', { data: { objectIds: [ rootId ], route: analytics.route.menuSystem, allowHtml: true } });
-				break;
-			};
+			// 导出功能已隐藏
+			// case 'save': {
+			// 	S.Popup.open('export', { data: { objectIds: [ rootId ], route: analytics.route.menuSystem, allowHtml: true } });
+			// 	break;
+			// };
 
-			case 'exportTemplates': {
-				Action.openDirectoryDialog({ buttonLabel: translate('commonExport') }, paths => {
-					C.TemplateExportAll(paths[0], (message: any) => {
-						if (message.error.code) {
-							return;
-						};
+			// case 'exportTemplates': {
+			// 	Action.openDirectoryDialog({ buttonLabel: translate('commonExport') }, paths => {
+			// 		C.TemplateExportAll(paths[0], (message: any) => {
+			// 			if (message.error.code) {
+			// 				return;
+			// 			};
 
-						Action.openPath(paths[0]);
-					});
-				});
-				break;
-			};
+			// 			Action.openPath(paths[0]);
+			// 		});
+			// 	});
+			// 	break;
+			// };
 
 			case 'exportLocalstore': {
 				Action.openDirectoryDialog({ buttonLabel: translate('commonExport') }, paths => {

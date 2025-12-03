@@ -39,16 +39,17 @@ const MenuPublish = observer(forwardRef<I.MenuRef, I.Menu>((props, ref) => {
 				analytics.event('ClickShareObjectShareSpace', { objectType: object.type });
 			},
 		} : null),
-		{ 
-			id: 'export', 
-			name: translate('popupExportTitle'), 
-			onClick: () => {
-				S.Popup.open('export', { data: { objectIds: [ rootId ], allowHtml: true } });
-				close();
+		// 导出功能已隐藏
+		// { 
+		// 	id: 'export', 
+		// 	name: translate('popupExportTitle'), 
+		// 	onClick: () => {
+		// 		S.Popup.open('export', { data: { objectIds: [ rootId ], allowHtml: true } });
+		// 		close();
 
-				analytics.event('ClickShareObjectShareExport', { objectType: object.type });
-			},
-		},
+		// 		analytics.event('ClickShareObjectShareExport', { objectType: object.type });
+		// 	},
+		// },
 	].filter(it => it);
 
 	const onPublish = (isUpdate?: boolean) => {

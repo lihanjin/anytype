@@ -24,16 +24,17 @@ const PageAuthDeleted = observer(forwardRef<I.PageRef, I.PageComponent>(() => {
 		});
 	};
 
-	const onExport = () => {
-		Action.export('', [], I.ExportType.Markdown, { 
-			zip: true, 
-			nested: true, 
-			files: true, 
-			archived: true, 
-			json: false, 
-			route: analytics.route.deleted,
-		});
-	};
+	// 导出功能已禁用
+	// const onExport = () => {
+	// 	Action.export('', [], I.ExportType.Markdown, { 
+	// 		zip: true, 
+	// 		nested: true, 
+	// 		files: true, 
+	// 		archived: true, 
+	// 		json: false, 
+	// 		route: analytics.route.deleted,
+	// 	});
+	// };
 
 	const onCancel = () => {
 		C.AccountRevertDeletion((message) => {
@@ -115,7 +116,8 @@ const PageAuthDeleted = observer(forwardRef<I.PageRef, I.PageComponent>(() => {
 							
 				<div className="animation buttons">
 					{cancelButton}
-					<Button color="blank" text={translate('authDeleteExportButton')} onClick={onExport} />
+					{/* 导出功能已隐藏 */}
+					{/* <Button color="blank" text={translate('authDeleteExportButton')} onClick={onExport} /> */}
 					<div className="remove" onClick={onRemove}>{translate('authDeleteRemoveButton')}</div>
 				</div>
 			</Frame>

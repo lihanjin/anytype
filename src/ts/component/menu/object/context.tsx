@@ -483,10 +483,11 @@ class MenuContext extends React.Component<I.Menu> {
 				break;
 			};
 
-			case 'export': {
-				S.Popup.open('export', { data: { objectIds, route } });
-				break;
-			};
+			// 导出功能已隐藏
+			// case 'export': {
+			// 	S.Popup.open('export', { data: { objectIds, route } });
+			// 	break;
+			// };
 
 			case 'relation': {
 				S.Popup.open('relation', { data: { objectIds, relationKeys, route, view, targetId, blockId } });
