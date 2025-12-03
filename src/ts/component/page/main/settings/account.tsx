@@ -104,7 +104,7 @@ const PageMainSettingsAccount = observer(forwardRef<I.PageRef, I.PageSettingsCom
 							<Icon className="copy" />
 						</div>
 
-						<div className="upsellWrapper">
+						{/* <div className="upsellWrapper">
 							<div className="text">
 								<Icon />
 								<Title text={translate('membershipUpsellAnyIdTitle')} />
@@ -115,7 +115,7 @@ const PageMainSettingsAccount = observer(forwardRef<I.PageRef, I.PageSettingsCom
 									onClick={() => Action.openSettings('membership', analytics.route.settingsAccount)}
 								/>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				)
 			) : ''}
