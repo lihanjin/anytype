@@ -228,7 +228,8 @@ const PageMainSettingsSpaceShare = observer(forwardRef<I.PageRef, I.PageSettings
 				<Title text={translate('popupSettingsSpaceShareTitle')} />
 			</div>
 
-			<div id="sectionInvite" className="section sectionInvite">
+			{/* 邀请链接功能已隐藏 */}
+			{/* <div id="sectionInvite" className="section sectionInvite">
 				<Title text={translate('popupSettingsSpaceShareInviteLinkTitle')} />
 
 				<div id="linkTypeWrapper" className={[ 'linkTypeWrapper', canEdit ? 'canEdit' : '' ].join(' ')} onClick={onInviteMenu}>
@@ -252,7 +253,7 @@ const PageMainSettingsSpaceShare = observer(forwardRef<I.PageRef, I.PageSettings
 						<Button onClick={onCopy} className="c36" color="black" text={translate('commonCopy')} />
 					</div>
 				) : ''}
-			</div>
+			</div> */}
 
 			<Members {...props} />
 			<Error text={error} />
