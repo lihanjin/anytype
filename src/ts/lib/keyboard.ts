@@ -339,12 +339,12 @@ class Keyboard {
 				U.Object.openRoute({ id: 'spaceIndex', layout: I.ObjectLayout.Settings });
 			});
 
-			// Logout
-			this.shortcut('logout', e, () => {
-				e.preventDefault();
+			// 登出功能已隐藏
+			// this.shortcut('logout', e, () => {
+			// 	e.preventDefault();
 
-				S.Popup.open('logout', {});
-			});
+			// 	S.Popup.open('logout', {});
+			// });
 
 			// Widget panel
 			this.shortcut('widget', e, () => {

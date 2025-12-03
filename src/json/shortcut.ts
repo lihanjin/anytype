@@ -43,7 +43,8 @@ const getSections = () => {
 						{ id: 'tableOfContents', name: translate('sidebarToc'), keys: [] },
 						{ id: 'widget', name: translate('popupShortcutMainBasics28'), keys: [] },
 						{ id: 'createSpace', name: translate('commonCreateSpace'), keys: [] },
-						{ id: 'logout', name: translate('commonLogout'), keys: [] },
+						// 登出功能已隐藏
+						// { id: 'logout', name: translate('commonLogout'), keys: [] },
 					]
 				},
 

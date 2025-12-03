@@ -316,12 +316,13 @@ const SidebarPageSettingsIndex = observer(forwardRef<{}, I.SidebarPageComponent>
 						</InfiniteLoader>
 					</div>
 
-					{!isSpace ? (
+					{/* 登出功能已隐藏 */}
+					{/* {!isSpace ? (
 						<div className="logout" onClick={() => S.Popup.open('logout', {})}>
 							<Icon />
 							{translate('commonLogout')}
 						</div>
-					) : ''}
+					) : ''} */}
 				</div>
 			</div>
 		</>
