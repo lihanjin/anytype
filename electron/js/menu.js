@@ -351,9 +351,10 @@ class MenuManager {
 
 		const channels = ConfigManager.getChannels().map(it => {
 			it.click = () => { 
-				if (!UpdateManager.isUpdating) {
+				// 更新功能已禁用，移除更新检查
+				// if (!UpdateManager.isUpdating) {
 					Util.send(this.win, 'commandGlobal', 'releaseChannel', it.id);
-				};
+				// };
 			};
 			return it;
 		}); 

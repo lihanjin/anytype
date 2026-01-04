@@ -61,7 +61,8 @@ class WindowManager {
 		});
 
 		win.on('focus', () => { 
-			UpdateManager.setWindow(win);
+			// 更新功能已禁用
+			// UpdateManager.setWindow(win);
 			MenuManager.setWindow(win);
 		});
 

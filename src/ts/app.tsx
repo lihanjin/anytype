@@ -324,13 +324,25 @@ const App: FC = () => {
 		window.setTimeout(() => S.Popup.open(id, param), S.Popup.getTimeout());
 	};
 
+	// 更新功能已禁用，以下函数不会被调用
 	const onUpdateDownloaded = (e: any, info: any) => {
+		// 更新功能已禁用
+		console.log('[App.onUpdateDownloaded] 更新功能已禁用', info);
+		return;
+		
+		/* 以下代码已注释，防止意外进入
 		console.log('[App.onUpdateDownloaded]', info);
 		S.Common.updateVersionSet(info?.version);
 		S.Progress.delete(I.ProgressType.Update);
+		*/
 	};
 
 	const onUpdateUnavailable = (e: any, auto: boolean) => {
+		// 更新功能已禁用
+		console.log('[App.onUpdateUnavailable] 更新功能已禁用');
+		return;
+		
+		/* 以下代码已注释，防止意外进入
 		if (auto) {
 			return;
 		};
@@ -345,9 +357,15 @@ const App: FC = () => {
 				canCancel: false,
 			},
 		});
+		*/
 	};
 
 	const onUpdateError = (e: any, err: string, auto: boolean) => {
+		// 更新功能已禁用
+		console.log('[App.onUpdateError] 更新功能已禁用', err);
+		return;
+		
+		/* 以下代码已注释，防止意外进入
 		console.error(err);
 		S.Common.updateVersionSet('');
 		S.Progress.delete(I.ProgressType.Update);
@@ -371,12 +389,23 @@ const App: FC = () => {
 				},
 			},
 		});
+		*/
 	};
 
 	const onUpdateProgress = (e: any, progress: any) => {
+		// 更新功能已禁用
+		console.log('[App.onUpdateProgress] 更新功能已禁用');
+		return;
+		
+		/* 以下代码已注释，防止意外进入
 		S.Progress.update({ 
 			id: I.ProgressType.Update,
 			type: I.ProgressType.Update,
+			current: progress.transferred,
+			total: progress.total,
+		});
+		*/
+	};
 			current: progress.transferred, 
 			total: progress.total,
 		});

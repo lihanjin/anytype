@@ -795,9 +795,10 @@ class UtilCommon {
 			return false;
 		};
 
-		// App needs update
+		// App needs update - 更新功能已禁用
 		if ([ J.Error.Code.ANYTYPE_NEEDS_UPGRADE, J.Error.Code.PROTOCOL_NEEDS_UPGRADE ].includes(code)) {
-			this.onErrorUpdate();
+			// this.onErrorUpdate();
+			console.log('[Common.onError] 应用需要更新，但更新功能已禁用');
 			return false;
 		};
 
@@ -858,6 +859,11 @@ class UtilCommon {
 	 * @param {function} [onConfirm] - Optional callback after update confirmation.
 	 */
 	onErrorUpdate (onConfirm?: () => void) {
+		// 更新功能已禁用
+		console.log('[Common.onErrorUpdate] 更新功能已禁用');
+		return;
+		
+		/* 以下代码已注释，防止意外进入
 		S.Popup.open('confirm', {
 			data: {
 				icon: 'update',
@@ -874,6 +880,7 @@ class UtilCommon {
 				},
 			},
 		});
+		*/
 	};
 
 	/**
@@ -1946,6 +1953,7 @@ class UtilCommon {
 	 * @param {string} v - The version to check against.
 	 */
 	checkUpdateVersion (v: string) {
+		// 更新功能已禁用，但保留版本检查逻辑用于显示 "What's New"
 		v = String(v || '');
 
 		const electron = this.getElectron();
