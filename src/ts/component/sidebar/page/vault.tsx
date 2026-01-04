@@ -189,9 +189,10 @@ const SidebarPageVault = observer(forwardRef<{}, I.SidebarPageComponent>((props,
 			items = items.filter(it => String(it.name || '').match(reg) || String(it.lastMessage || '').match(reg));
 		};
 
-		if (progress.length || updateVersion) {
-			items.unshift({ id: 'update-progress', isProgress: true, isUpdate: Boolean(updateVersion) });
-		};
+		// 更新功能已禁用
+		// if (progress.length || updateVersion) {
+		// 	items.unshift({ id: 'update-progress', isProgress: true, isUpdate: Boolean(updateVersion) });
+		// };
 
 		return items;
 	};

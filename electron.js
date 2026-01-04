@@ -177,8 +177,9 @@ function createWindow () {
 		return false;
 	});
 
-	UpdateManager.setWindow(mainWindow);
-	UpdateManager.init();
+	// 更新功能已禁用
+	// UpdateManager.setWindow(mainWindow);
+	// UpdateManager.init();
 
 	MenuManager.setWindow(mainWindow);
 	MenuManager.initMenu();

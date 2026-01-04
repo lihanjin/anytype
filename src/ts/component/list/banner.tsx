@@ -8,7 +8,7 @@ const ListBanner: FC = observer(() => {
 
 	return (
 		<>
-			{updateVersion ? (
+			{/* {updateVersion ? (
 				<Banner
 					id="sidebarUpdateBanner"
 					title={translate('commonUpdateAvailable')}
@@ -25,7 +25,7 @@ const ListBanner: FC = observer(() => {
 						Renderer.send('updateCancel');
 					}}
 				/>
-			) : ''}
+			) : ''} */}
 		</>
 	);
 });

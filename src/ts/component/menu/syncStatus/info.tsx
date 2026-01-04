@@ -25,7 +25,8 @@ const MenuSyncStatusInfo = forwardRef<{}, I.Menu>((props, ref) => {
 
 		switch (item.id) {
 			case 'updateApp': {
-				Renderer.send('updateCheck');
+				// 更新功能已禁用
+				// Renderer.send('updateCheck');
 				break;
 			};
 

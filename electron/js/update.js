@@ -19,6 +19,11 @@ class UpdateManager {
 	};
 
 	init () {
+		// 更新功能已禁用
+		console.log('[UpdateManager].init, 更新功能已禁用');
+		return;
+		
+		/* 以下代码已注释，防止意外进入
 		const { channel } = ConfigManager.config;
 
 		console.log('[UpdateManager].init, channel: ', channel);
@@ -72,6 +77,7 @@ class UpdateManager {
 			Util.log('info', 'Update downloaded: ' + JSON.stringify(info, null, 3));
 			Util.send(this.win, 'update-downloaded', info);
 		});
+		*/
 	};
 
 	isAllowed () {
@@ -106,11 +112,22 @@ class UpdateManager {
 	};
 
 	setChannel (channel) {
+		// 更新功能已禁用
+		console.log('[UpdateManager].setChannel, 更新功能已禁用');
+		return;
+		
+		/* 以下代码已注释，防止意外进入
 		autoUpdater.channel = channel;
 		this.checkUpdate(false);
+		*/
 	};
 
 	checkUpdate (auto) {
+		// 更新功能已禁用
+		console.log('[UpdateManager].checkUpdate, 更新功能已禁用');
+		return;
+		
+		/* 以下代码已注释，防止意外进入
 		if (!this.isAllowed() || this.isUpdating) {
 			return;
 		};
@@ -121,6 +138,7 @@ class UpdateManager {
 
 		this.setTimeout();
 		this.autoUpdate = auto;
+		*/
 	};
 
 	download () {
@@ -128,10 +146,16 @@ class UpdateManager {
 	};
 
 	relaunch () {
+		// 更新功能已禁用
+		console.log('[UpdateManager].relaunch, 更新功能已禁用');
+		return;
+		
+		/* 以下代码已注释，防止意外进入
 		Util.log('info', 'Relaunch');
 		app.isQuiting = true;
 
 		autoUpdater.quitAndInstall();
+		*/
 	};
 
 	cancel () {
@@ -140,11 +164,16 @@ class UpdateManager {
 	};
 
 	setTimeout () {
+		// 更新功能已禁用，不再设置自动检查更新的定时器
+		return;
+		
+		/* 以下代码已注释，防止意外进入
 		const { config } = ConfigManager;
 		const t = Number(config.updateTimeout) || TIMEOUT_UPDATE;
 
 		this.clearTimeout();
 		this.timeout = setTimeout(() => this.checkUpdate(true), t);
+		*/
 	};
 
 	clearTimeout () {

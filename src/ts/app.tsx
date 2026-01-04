@@ -146,10 +146,11 @@ const App: FC = () => {
 		Renderer.on('init', onInit);
 		Renderer.on('route', (e: any, route: string) => onRoute(route));
 		Renderer.on('popup', onPopup);
-		Renderer.on('update-not-available', onUpdateUnavailable);
-		Renderer.on('update-downloaded', onUpdateDownloaded);
-		Renderer.on('update-error', onUpdateError);
-		Renderer.on('download-progress', onUpdateProgress);
+		// 更新功能已禁用
+		// Renderer.on('update-not-available', onUpdateUnavailable);
+		// Renderer.on('update-downloaded', onUpdateDownloaded);
+		// Renderer.on('update-error', onUpdateError);
+		// Renderer.on('download-progress', onUpdateProgress);
 		Renderer.on('spellcheck', onSpellcheck);
 		Renderer.on('pin-set', () => S.Common.pinInit());
 		Renderer.on('pin-remove', () => S.Common.pinInit());

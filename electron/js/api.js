@@ -132,21 +132,45 @@ class Api {
 	};
 
 	updateCheck (win) {
+		// 更新功能已禁用
+		console.log('[Api].updateCheck, 更新功能已禁用');
+		return;
+		
+		/* 以下代码已注释，防止意外进入
 		if (this.isPinChecked || !this.account) {
 			UpdateManager.checkUpdate(false);
 		};
+		*/
 	};
 
 	updateDownload (win) {
+		// 更新功能已禁用
+		console.log('[Api].updateDownload, 更新功能已禁用');
+		return;
+		
+		/* 以下代码已注释，防止意外进入
 		UpdateManager.download();
+		*/
 	};
 
 	updateConfirm (win) {
+		// 更新功能已禁用
+		console.log('[Api].updateConfirm, 更新功能已禁用');
+		return;
+		
+		/* 以下代码已注释，防止意外进入
 		this.exit(win, '', true);
+		*/
 	};
 
 	updateCancel (win) {
+		// 更新功能已禁用
+		console.log('[Api].updateCancel, 更新功能已禁用');
+		return;
+		
+		/* 以下代码已注释，防止意外进入
 		UpdateManager.cancel();
+		*/
 	};
 
 	async download (win, url, options) {
@@ -200,7 +224,9 @@ class Api {
 		Util.log('info', '[Api].shutdown, relaunch: ' + relaunch);
 
 		if (relaunch) {
-			UpdateManager.relaunch();
+			// 更新功能已禁用，不再执行重启更新
+			console.log('[Api].shutdown, 更新功能已禁用，跳过重启更新');
+			app.exit(0);
 		} else {
 			app.exit(0);
 		};
@@ -222,7 +248,9 @@ class Api {
 	};
 
 	setChannel (win, id) {
-		UpdateManager.setChannel(id); 
+		// 更新功能已禁用
+		console.log('[Api].setChannel, 更新功能已禁用');
+		// UpdateManager.setChannel(id); 
 		this.setConfig(win, { channel: id }, () => {
 			this.initMenu(win);
 		});

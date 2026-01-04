@@ -13,7 +13,10 @@ interface Props extends I.SidebarPageComponent {
 };
 
 const SidebarPageVaultUpdate = observer(forwardRef<{}, Props>((props, ref) => {
-
+	// 更新功能已禁用
+	return null;
+	
+	/* 以下代码已注释，防止意外进入
 	const { id, style } = props;
 	const { updateVersion } = S.Common;
 	const cn = [ 'item', 'isProgress' ];
@@ -95,7 +98,7 @@ const SidebarPageVaultUpdate = observer(forwardRef<{}, Props>((props, ref) => {
 			{buttons}
 		</div>
 	);
-
+	*/
 }));
 
 export default SidebarPageVaultUpdate;

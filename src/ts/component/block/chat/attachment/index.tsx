@@ -266,9 +266,10 @@ const ChatAttachment = observer(forwardRef<RefProps, Props>((props, ref) => {
 				canCancel: false,
 				onConfirm: () => {
 					if (syncError == I.SyncStatusError.IncompatibleVersion) {
-						window.setTimeout(() => {
-							Renderer.send('updateCheck');
-						}, J.Constant.delay.popup);
+						// 更新功能已禁用
+						// window.setTimeout(() => {
+						// 	Renderer.send('updateCheck');
+						// }, J.Constant.delay.popup);
 					};
 
 					if (syncError == I.SyncStatusError.Oversized) {
